@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # n8n:
+  #   build:
+  #     context: ./n8n
+  #   ports:
+  #     - "5678:5678"
+  #   volumes:
+  #     - n8n_data:/data
+  #   restart: always
+
+  ollama:
+    build:
+      context: ./ollama
+    ports:
+      - "11434:11434"
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "3000:3000"
+    # depends_on:
+    #   - n8n
+    #   - ollama
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3001:3001" # Updated: Maps container port 5173 (Vite default) to host port 5173
+    restart: always
+
+volumes:
+  n8n_data:
