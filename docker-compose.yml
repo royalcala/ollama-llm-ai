@@ -27,11 +27,25 @@ services:
     #   - ollama
     restart: always
 
-  frontend:
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   ports:
+  #     - "3001:3001" # Updated: Maps container port 5173 (Vite default) to host port 5173
+  #   volumes:
+  #     - ./frontend:/app  # Mount local frontend directory to /app in container
+  #     - /app/node_modules  # Preserve node_modules in container
+  #   restart: always
+
+  frontend-nextjs:
     build:
-      context: ./frontend
+      context: ./frontend-nextjs
     ports:
-      - "3001:3001" # Updated: Maps container port 5173 (Vite default) to host port 5173
+      - "3002:3000" # Next.js runs on port 3000 by default
+    volumes:
+      - ./frontend-nextjs:/app  # Mount local directory for hot reloading
+      - /app/node_modules  # Preserve container's node_modules
+      - /app/.next  # Preserve Next.js build cache
     restart: always
 
 volumes:
